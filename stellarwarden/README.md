@@ -1,8 +1,8 @@
 # stellarwarden
 
-> On-chain compliance primitives for Stellar — allowlist/denylist token gating and jurisdiction checks for RWA and stablecoin issuers, built on Soroban.
+> On-chain compliance contracts for Stellar — allowlist/denylist token gating and jurisdiction checks for RWA and stablecoin issuers, built on Soroban.
 
-[![CI](https://github.com/stellarwarden-kit/stellarwarden/actions/workflows/ci.yml/badge.svg)](https://github.com/stellarwarden-kit/stellarwarden/actions/workflows/ci.yml)
+[![CI](https://github.com/elenajoyce/stellarwarden/actions/workflows/ci.yml/badge.svg)](https://github.com/elenajoyce/stellarwarden/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ## The problem
@@ -43,7 +43,7 @@ Each example under `/examples` demonstrates a different composition pattern:
 | `jurisdiction-denylist-consumer` | Combines jurisdiction and denylist checks |
 | `multisig-governed-allowlist` | Multisig as admin of allowlist-token |
 | `rwa-compliance-flow` | Full RWA stack: circuit breaker + allowlist + denylist + jurisdiction + audit |
-| `rwa-token` | Reference RWA token composing all three core primitives |
+| `rwa-token` | Reference RWA token composing all three core contracts |
 
 ---
 
@@ -53,7 +53,7 @@ New here? Start with [QUICKSTART.md](QUICKSTART.md).
 
 ```bash
 # Clone
-git clone https://github.com/stellarwarden-kit/stellarwarden.git
+git clone https://github.com/elenajoyce/stellarwarden.git
 cd stellarwarden
 
 # Run the full test suite
@@ -119,13 +119,13 @@ See `/examples/denylist-gate-consumer` for a worked example. `allowlist-token` i
 
 ---
 
-## Choosing which primitives to compose
+## Choosing which contracts to compose
 
-See [docs/PRIMITIVE_SELECTION_GUIDE.md](docs/PRIMITIVE_SELECTION_GUIDE.md) for profiles of common RWA and stablecoin use cases and which primitive combinations fit each.
+See [docs/PRIMITIVE_SELECTION_GUIDE.md](docs/PRIMITIVE_SELECTION_GUIDE.md) for profiles of common RWA and stablecoin use cases and which contract combinations fit each.
 
 ## Migrating from hand-rolled compliance
 
-See [docs/MIGRATION.md](docs/MIGRATION.md) for a step-by-step guide to replacing hand-rolled allowlist, denylist, or jurisdiction checks with these primitives.
+See [docs/MIGRATION.md](docs/MIGRATION.md) for a step-by-step guide to replacing hand-rolled allowlist, denylist, or jurisdiction checks with these contracts.
 
 ---
 
