@@ -1,0 +1,16 @@
+[package]
+name = "audit-log"
+version = "0.1.0"
+edition = "2021"
+description = "On-chain append-only audit trail for compliance events emitted by other stellarwarden primitives."
+license = "MIT"
+repository = "https://github.com/stellarwarden-kit/stellarwarden"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+soroban-sdk = { workspace = true }
+
+[dev-dependencies]
+soroban-sdk = { workspace = true }

@@ -1,0 +1,16 @@
+[package]
+name = "pausable"
+version = "0.1.0"
+edition = "2021"
+description = "Shared pause/unpause helper library composed into other stellarwarden contracts at compile time."
+license = "MIT"
+repository = "https://github.com/stellarwarden-kit/stellarwarden"
+
+[lib]
+crate-type = ["rlib"]
+
+[dependencies]
+soroban-sdk = { workspace = true }
+
+[dev-dependencies]
+soroban-sdk = { workspace = true }

@@ -1,0 +1,18 @@
+[package]
+name = "multisig-governed-allowlist"
+version = "0.1.0"
+edition = "2021"
+description = "Uses multisig-admin as the admin of allowlist-token so every change requires M-of-N signer approval."
+license = "MIT"
+repository = "https://github.com/stellarwarden-kit/stellarwarden"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+soroban-sdk = { workspace = true }
+allowlist-token = { path = "../../contracts/allowlist-token" }
+multisig-admin = { path = "../../contracts/multisig-admin" }
+
+[dev-dependencies]
+soroban-sdk = { workspace = true }

@@ -1,0 +1,18 @@
+[package]
+name = "compliance-aggregator"
+version = "0.1.0"
+edition = "2021"
+description = "Batches denylist-gate and jurisdiction-flag checks into a single cross-contract call, returning an aggregated pass/fail and per-check breakdown."
+license = "MIT"
+repository = "https://github.com/stellarwarden-kit/stellarwarden"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+soroban-sdk = { workspace = true }
+denylist-gate = { path = "../../contracts/denylist-gate" }
+jurisdiction-flag = { path = "../../contracts/jurisdiction-flag" }
+
+[dev-dependencies]
+soroban-sdk = { workspace = true }

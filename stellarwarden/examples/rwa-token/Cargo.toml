@@ -1,0 +1,19 @@
+[package]
+name = "rwa-token"
+version = "0.1.0"
+edition = "2021"
+description = "Reference RWA token composing allowlist, denylist, and jurisdiction checks."
+license = "MIT"
+repository = "https://github.com/stellarwarden-kit/stellarwarden"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+soroban-sdk = { workspace = true }
+allowlist-token = { path = "../../contracts/allowlist-token" }
+denylist-gate = { path = "../../contracts/denylist-gate" }
+jurisdiction-flag = { path = "../../contracts/jurisdiction-flag" }
+
+[dev-dependencies]
+soroban-sdk = { workspace = true }

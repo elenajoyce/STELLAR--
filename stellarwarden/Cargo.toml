@@ -1,0 +1,39 @@
+[workspace]
+resolver = "2"
+members = [
+    "contracts/allowlist-token",
+    "contracts/denylist-gate",
+    "contracts/jurisdiction-flag",
+    "contracts/audit-log",
+    "contracts/circuit-breaker",
+    "contracts/compliance-aggregator",
+    "contracts/multisig-admin",
+    "contracts/pausable",
+    "contracts/policy-engine",
+    "examples/denylist-gate-consumer",
+    "examples/rwa-token",
+    "examples/circuit-breaker-policy-engine",
+    "examples/compliance-integration-flow",
+    "examples/denylist-gate-sep41",
+    "examples/jurisdiction-flag-consumer",
+    "examples/jurisdiction-denylist-consumer",
+    "examples/multisig-governed-allowlist",
+    "examples/rwa-compliance-flow",
+]
+
+[workspace.dependencies]
+soroban-sdk = { version = "21.7.7", features = ["testutils"] }
+
+[profile.release]
+opt-level = "z"
+overflow-checks = true
+debug = 0
+strip = "symbols"
+debug-assertions = false
+panic = "abort"
+codegen-units = 1
+lto = true
+
+[profile.release-with-logs]
+inherits = "release"
+debug-assertions = true

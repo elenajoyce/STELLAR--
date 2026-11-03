@@ -1,0 +1,16 @@
+[package]
+name = "circuit-breaker"
+version = "0.1.0"
+edition = "2021"
+description = "Admin-controlled emergency freeze switch. Other contracts call is_active() before allowing a transfer."
+license = "MIT"
+repository = "https://github.com/stellarwarden-kit/stellarwarden"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+soroban-sdk = { workspace = true }
+
+[dev-dependencies]
+soroban-sdk = { workspace = true }

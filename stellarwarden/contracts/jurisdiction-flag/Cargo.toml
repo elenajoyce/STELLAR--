@@ -1,0 +1,17 @@
+[package]
+name = "jurisdiction-flag"
+version = "0.1.0"
+edition = "2021"
+description = "Attaches an issuer-controlled jurisdiction code to an address. Other contracts call is_permitted_jurisdiction to gate transfers by country."
+license = "MIT"
+repository = "https://github.com/stellarwarden-kit/stellarwarden"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+soroban-sdk = { workspace = true }
+pausable = { path = "../../contracts/pausable" }
+
+[dev-dependencies]
+soroban-sdk = { workspace = true }

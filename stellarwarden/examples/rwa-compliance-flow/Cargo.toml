@@ -1,0 +1,21 @@
+[package]
+name = "rwa-compliance-flow"
+version = "0.1.0"
+edition = "2021"
+description = "Full RWA compliance stack with circuit breaker, allowlist, denylist, jurisdiction, and audit log."
+license = "MIT"
+repository = "https://github.com/stellarwarden-kit/stellarwarden"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+soroban-sdk = { workspace = true }
+allowlist-token = { path = "../../contracts/allowlist-token" }
+denylist-gate = { path = "../../contracts/denylist-gate" }
+jurisdiction-flag = { path = "../../contracts/jurisdiction-flag" }
+circuit-breaker = { path = "../../contracts/circuit-breaker" }
+audit-log = { path = "../../contracts/audit-log" }
+
+[dev-dependencies]
+soroban-sdk = { workspace = true }

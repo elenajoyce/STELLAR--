@@ -1,0 +1,17 @@
+[package]
+name = "denylist-gate"
+version = "0.1.0"
+edition = "2021"
+description = "Standalone denylist contract for stellarwarden. Other contracts call check(address) via cross-contract invocation before executing a transfer."
+license = "MIT"
+repository = "https://github.com/stellarwarden-kit/stellarwarden"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+soroban-sdk = { workspace = true }
+pausable = { path = "../../contracts/pausable" }
+
+[dev-dependencies]
+soroban-sdk = { workspace = true }

@@ -1,0 +1,17 @@
+[package]
+name = "jurisdiction-flag-consumer"
+version = "0.1.0"
+edition = "2021"
+description = "Token enforcing jurisdiction-based transfer restrictions using jurisdiction-flag."
+license = "MIT"
+repository = "https://github.com/stellarwarden-kit/stellarwarden"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+soroban-sdk = { workspace = true }
+jurisdiction-flag = { path = "../../contracts/jurisdiction-flag" }
+
+[dev-dependencies]
+soroban-sdk = { workspace = true }

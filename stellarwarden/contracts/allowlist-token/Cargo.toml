@@ -1,0 +1,17 @@
+[package]
+name = "allowlist-token"
+version = "0.1.0"
+edition = "2021"
+description = "Token wrapper that only permits transfers between two addresses that are both present on an on-chain allowlist. Forwards cleared transfers to an underlying SEP-41 token."
+license = "MIT"
+repository = "https://github.com/stellarwarden-kit/stellarwarden"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+soroban-sdk = { workspace = true }
+pausable = { path = "../../contracts/pausable" }
+
+[dev-dependencies]
+soroban-sdk = { workspace = true }

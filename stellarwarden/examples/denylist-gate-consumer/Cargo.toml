@@ -1,0 +1,18 @@
+[package]
+name = "denylist-gate-consumer"
+version = "0.1.0"
+edition = "2021"
+description = "Minimal reference token showing the cross-contract calling pattern for denylist-gate and circuit-breaker."
+license = "MIT"
+repository = "https://github.com/stellarwarden-kit/stellarwarden"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+soroban-sdk = { workspace = true }
+denylist-gate = { path = "../../contracts/denylist-gate" }
+circuit-breaker = { path = "../../contracts/circuit-breaker" }
+
+[dev-dependencies]
+soroban-sdk = { workspace = true }

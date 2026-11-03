@@ -1,0 +1,19 @@
+[package]
+name = "compliance-integration-flow"
+version = "0.1.0"
+edition = "2021"
+description = "Combines jurisdiction policy evaluation, a multisig-governed circuit breaker, and audit logging."
+license = "MIT"
+repository = "https://github.com/stellarwarden-kit/stellarwarden"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+soroban-sdk = { workspace = true }
+circuit-breaker = { path = "../../contracts/circuit-breaker" }
+jurisdiction-flag = { path = "../../contracts/jurisdiction-flag" }
+audit-log = { path = "../../contracts/audit-log" }
+
+[dev-dependencies]
+soroban-sdk = { workspace = true }
