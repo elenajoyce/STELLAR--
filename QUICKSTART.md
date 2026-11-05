@@ -19,7 +19,7 @@ cargo install --locked stellar-cli --features opt
 ## 1. Clone
 
 ```bash
-git clone https://github.com/elenajoyce/stellarwarden.git
+git clone https://github.com/stellar-warden-kit/stellarwarden.git
 cd stellarwarden
 ```
 

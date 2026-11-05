@@ -2,7 +2,7 @@
 
 > On-chain compliance contracts for Stellar — allowlist/denylist token gating and jurisdiction checks for RWA and stablecoin issuers, built on Soroban.
 
-[![CI](https://github.com/elenajoyce/stellarwarden/actions/workflows/ci.yml/badge.svg)](https://github.com/elenajoyce/stellarwarden/actions/workflows/ci.yml)
+[![CI](https://github.com/stellar-warden-kit/stellarwarden/actions/workflows/ci.yml/badge.svg)](https://github.com/stellar-warden-kit/stellarwarden/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ## The problem
@@ -53,7 +53,7 @@ New here? Start with [QUICKSTART.md](QUICKSTART.md).
 
 ```bash
 # Clone
-git clone https://github.com/elenajoyce/stellarwarden.git
+git clone https://github.com/stellar-warden-kit/stellarwarden.git
 cd stellarwarden
 
 # Run the full test suite
