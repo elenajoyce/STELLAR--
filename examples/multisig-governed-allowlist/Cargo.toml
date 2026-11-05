@@ -11,8 +11,8 @@ crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 soroban-sdk = { workspace = true }
-allowlist-token = { path = "../../contracts/allowlist-token" }
-multisig-admin = { path = "../../contracts/multisig-admin" }
 
 [dev-dependencies]
-soroban-sdk = { workspace = true }
+soroban-sdk = { workspace = true, features = ["testutils"] }
+allowlist-token = { path = "../../contracts/allowlist-token" }
+multisig-admin = { path = "../../contracts/multisig-admin" }

@@ -4,10 +4,19 @@
 
 #![no_std]
 
-use denylist_gate::DenylistGateClient;
 use soroban_sdk::{
-    contract, contracterror, contractimpl, contracttype, panic_with_error, token, Address, Env,
+    contract, contractclient, contracterror, contractimpl, contracttype, panic_with_error, token,
+    Address, Env,
 };
+
+// ── Cross-contract client interfaces ───────────────────────────────────────
+// Only the methods this contract calls are declared here as client traits, so
+// denylist-gate is not linked into this contract's WASM. It is deployed
+// separately and invoked by address at runtime.
+#[contractclient(name = "DenylistGateClient")]
+pub trait DenylistGateTrait {
+    fn check(env: Env, address: Address);
+}
 
 #[contracttype]
 #[derive(Clone)]
@@ -103,7 +112,7 @@ mod tests {
         let admin = Address::generate(&env);
 
         let dl_id = env.register_contract(None, DenylistGate);
-        DenylistGateClient::new(&env, &dl_id).initialize(&admin);
+        denylist_gate::DenylistGateClient::new(&env, &dl_id).initialize(&admin);
 
         let token_addr = env
             .register_stellar_asset_contract_v2(admin.clone())

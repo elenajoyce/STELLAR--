@@ -14,4 +14,4 @@ soroban-sdk = { workspace = true }
 pausable = { path = "../../contracts/pausable" }
 
 [dev-dependencies]
-soroban-sdk = { workspace = true }
+soroban-sdk = { workspace = true, features = ["testutils"] }

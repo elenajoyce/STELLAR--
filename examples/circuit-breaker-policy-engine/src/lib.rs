@@ -4,13 +4,29 @@
 
 #![no_std]
 
-use circuit_breaker::CircuitBreakerClient;
-use denylist_gate::DenylistGateClient;
-use jurisdiction_flag::JurisdictionFlagClient;
 use soroban_sdk::{
-    contract, contracterror, contractimpl, contracttype, panic_with_error, Address, Env, String,
-    Vec,
+    contract, contractclient, contracterror, contractimpl, contracttype, panic_with_error, Address,
+    Env, String, Vec,
 };
+
+// ── Cross-contract client interfaces ───────────────────────────────────────
+// Only the methods this contract calls are declared here as client traits, so
+// circuit-breaker, denylist-gate, and jurisdiction-flag are not linked into
+// this contract's WASM. They are deployed separately and invoked by address.
+#[contractclient(name = "CircuitBreakerClient")]
+pub trait CircuitBreakerTrait {
+    fn check(env: Env);
+}
+
+#[contractclient(name = "DenylistGateClient")]
+pub trait DenylistGateTrait {
+    fn check(env: Env, address: Address);
+}
+
+#[contractclient(name = "JurisdictionFlagClient")]
+pub trait JurisdictionFlagTrait {
+    fn is_permitted_jurisdiction(env: Env, address: Address, permitted_codes: Vec<String>) -> bool;
+}
 
 #[contracttype]
 #[derive(Clone)]
@@ -155,11 +171,11 @@ mod tests {
         let admin = Address::generate(&env);
 
         let cb_id = env.register_contract(None, CircuitBreaker);
-        CircuitBreakerClient::new(&env, &cb_id).initialize(&admin);
+        circuit_breaker::CircuitBreakerClient::new(&env, &cb_id).initialize(&admin);
         let dl_id = env.register_contract(None, DenylistGate);
-        DenylistGateClient::new(&env, &dl_id).initialize(&admin);
+        denylist_gate::DenylistGateClient::new(&env, &dl_id).initialize(&admin);
         let jf_id = env.register_contract(None, JurisdictionFlag);
-        JurisdictionFlagClient::new(&env, &jf_id).initialize(&admin);
+        jurisdiction_flag::JurisdictionFlagClient::new(&env, &jf_id).initialize(&admin);
 
         let permitted = vec![&env, String::from_str(&env, "US")];
         let contract_id = env.register_contract(None, CbPeToken);

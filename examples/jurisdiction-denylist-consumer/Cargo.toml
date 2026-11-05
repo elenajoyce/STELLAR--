@@ -11,8 +11,8 @@ crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 soroban-sdk = { workspace = true }
-denylist-gate = { path = "../../contracts/denylist-gate" }
-jurisdiction-flag = { path = "../../contracts/jurisdiction-flag" }
 
 [dev-dependencies]
-soroban-sdk = { workspace = true }
+soroban-sdk = { workspace = true, features = ["testutils"] }
+denylist-gate = { path = "../../contracts/denylist-gate" }
+jurisdiction-flag = { path = "../../contracts/jurisdiction-flag" }

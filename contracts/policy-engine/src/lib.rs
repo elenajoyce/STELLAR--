@@ -9,9 +9,24 @@
 #![no_std]
 
 use soroban_sdk::{
-    contract, contracterror, contractimpl, contracttype, panic_with_error, Address, Env, String,
-    Vec,
+    contract, contractclient, contracterror, contractimpl, contracttype, panic_with_error, Address,
+    Env, String, Vec,
 };
+
+// ── Cross-contract client interfaces ───────────────────────────────────────
+// Only the methods this engine calls are declared here as client traits, so
+// denylist-gate and jurisdiction-flag are not linked into this contract's WASM.
+// They are deployed separately and invoked by address at runtime.
+#[contractclient(name = "DenylistGateClient")]
+pub trait DenylistGateTrait {
+    fn is_denied(env: Env, address: Address) -> bool;
+}
+
+#[contractclient(name = "JurisdictionFlagClient")]
+pub trait JurisdictionFlagTrait {
+    fn has_jurisdiction(env: Env, address: Address) -> bool;
+    fn is_permitted_jurisdiction(env: Env, address: Address, permitted_codes: Vec<String>) -> bool;
+}
 
 #[contracttype]
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -113,7 +128,7 @@ impl PolicyEngine {
             .instance()
             .get::<DataKey, Address>(&DataKey::DenylistGate)
         {
-            let client = denylist_gate::DenylistGateClient::new(&env, &denylist_addr);
+            let client = DenylistGateClient::new(&env, &denylist_addr);
             results.push_back(!client.is_denied(&address));
         }
 
@@ -128,7 +143,7 @@ impl PolicyEngine {
                 .instance()
                 .get(&DataKey::PermittedJurisdictions)
                 .unwrap_or_else(|| Vec::new(&env));
-            let client = jurisdiction_flag::JurisdictionFlagClient::new(&env, &juris_addr);
+            let client = JurisdictionFlagClient::new(&env, &juris_addr);
             let passed = if client.has_jurisdiction(&address) {
                 client.is_permitted_jurisdiction(&address, &permitted)
             } else {

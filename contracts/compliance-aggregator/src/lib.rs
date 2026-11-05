@@ -7,9 +7,24 @@
 #![no_std]
 
 use soroban_sdk::{
-    contract, contracterror, contractimpl, contracttype, panic_with_error, Address, Env, String,
-    Vec,
+    contract, contractclient, contracterror, contractimpl, contracttype, panic_with_error, Address,
+    Env, String, Vec,
 };
+
+// ── Cross-contract client interfaces ───────────────────────────────────────
+// Only the methods this aggregator calls are declared here as client traits,
+// so denylist-gate and jurisdiction-flag are not linked into this contract's
+// WASM. They are deployed separately and invoked by address at runtime.
+#[contractclient(name = "DenylistGateClient")]
+pub trait DenylistGateTrait {
+    fn is_denied(env: Env, address: Address) -> bool;
+}
+
+#[contractclient(name = "JurisdictionFlagClient")]
+pub trait JurisdictionFlagTrait {
+    fn has_jurisdiction(env: Env, address: Address) -> bool;
+    fn is_permitted_jurisdiction(env: Env, address: Address, permitted_codes: Vec<String>) -> bool;
+}
 
 // ── Result types ──────────────────────────────────────────────────────────────
 
@@ -128,7 +143,7 @@ impl ComplianceAggregator {
         let mut all_passed = true;
 
         // Check 1: denylist
-        let denylist_client = denylist_gate::DenylistGateClient::new(&env, &denylist_addr);
+        let denylist_client = DenylistGateClient::new(&env, &denylist_addr);
         let denylist_passed = !denylist_client.is_denied(&address);
         if !denylist_passed {
             all_passed = false;
@@ -139,7 +154,7 @@ impl ComplianceAggregator {
         });
 
         // Check 2: jurisdiction
-        let juris_client = jurisdiction_flag::JurisdictionFlagClient::new(&env, &juris_addr);
+        let juris_client = JurisdictionFlagClient::new(&env, &juris_addr);
         let juris_passed = if juris_client.has_jurisdiction(&address) {
             juris_client.is_permitted_jurisdiction(&address, &permitted)
         } else {

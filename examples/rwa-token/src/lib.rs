@@ -5,13 +5,29 @@
 
 #![no_std]
 
-use allowlist_token::AllowlistTokenClient;
-use denylist_gate::DenylistGateClient;
-use jurisdiction_flag::JurisdictionFlagClient;
 use soroban_sdk::{
-    contract, contracterror, contractimpl, contracttype, panic_with_error, Address, Env, String,
-    Vec,
+    contract, contractclient, contracterror, contractimpl, contracttype, panic_with_error, Address,
+    Env, String, Vec,
 };
+
+// ── Cross-contract client interfaces ───────────────────────────────────────
+// Only the methods this contract calls are declared here as client traits, so
+// allowlist-token, denylist-gate, and jurisdiction-flag are not linked into this
+// contract's WASM. They are deployed separately and invoked by address.
+#[contractclient(name = "AllowlistTokenClient")]
+pub trait AllowlistTokenTrait {
+    fn is_allowed(env: Env, address: Address) -> bool;
+}
+
+#[contractclient(name = "DenylistGateClient")]
+pub trait DenylistGateTrait {
+    fn is_denied(env: Env, address: Address) -> bool;
+}
+
+#[contractclient(name = "JurisdictionFlagClient")]
+pub trait JurisdictionFlagTrait {
+    fn is_permitted_jurisdiction(env: Env, address: Address, permitted_codes: Vec<String>) -> bool;
+}
 
 #[contracttype]
 #[derive(Clone)]
@@ -217,13 +233,13 @@ mod tests {
             .address();
 
         let al_id = env.register_contract(None, AllowlistToken);
-        AllowlistTokenClient::new(&env, &al_id).initialize(&admin, &token_addr);
+        allowlist_token::AllowlistTokenClient::new(&env, &al_id).initialize(&admin, &token_addr);
 
         let dl_id = env.register_contract(None, DenylistGate);
-        DenylistGateClient::new(&env, &dl_id).initialize(&admin);
+        denylist_gate::DenylistGateClient::new(&env, &dl_id).initialize(&admin);
 
         let jf_id = env.register_contract(None, JurisdictionFlag);
-        JurisdictionFlagClient::new(&env, &jf_id).initialize(&admin);
+        jurisdiction_flag::JurisdictionFlagClient::new(&env, &jf_id).initialize(&admin);
 
         let permitted = vec![
             &env,

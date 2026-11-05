@@ -11,11 +11,11 @@ crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 soroban-sdk = { workspace = true }
+
+[dev-dependencies]
+soroban-sdk = { workspace = true, features = ["testutils"] }
 allowlist-token = { path = "../../contracts/allowlist-token" }
 denylist-gate = { path = "../../contracts/denylist-gate" }
 jurisdiction-flag = { path = "../../contracts/jurisdiction-flag" }
 circuit-breaker = { path = "../../contracts/circuit-breaker" }
 audit-log = { path = "../../contracts/audit-log" }
-
-[dev-dependencies]
-soroban-sdk = { workspace = true }

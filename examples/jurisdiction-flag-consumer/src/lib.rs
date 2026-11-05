@@ -4,11 +4,19 @@
 
 #![no_std]
 
-use jurisdiction_flag::JurisdictionFlagClient;
 use soroban_sdk::{
-    contract, contracterror, contractimpl, contracttype, panic_with_error, Address, Env, String,
-    Vec,
+    contract, contractclient, contracterror, contractimpl, contracttype, panic_with_error, Address,
+    Env, String, Vec,
 };
+
+// ── Cross-contract client interfaces ───────────────────────────────────────
+// Only the methods this contract calls are declared here as client traits, so
+// jurisdiction-flag is not linked into this contract's WASM. It is deployed
+// separately and invoked by address at runtime.
+#[contractclient(name = "JurisdictionFlagClient")]
+pub trait JurisdictionFlagTrait {
+    fn is_permitted_jurisdiction(env: Env, address: Address, permitted_codes: Vec<String>) -> bool;
+}
 
 #[contracttype]
 #[derive(Clone)]
@@ -132,7 +140,7 @@ mod tests {
         let admin = Address::generate(&env);
 
         let jf_id = env.register_contract(None, JurisdictionFlag);
-        JurisdictionFlagClient::new(&env, &jf_id).initialize(&admin);
+        jurisdiction_flag::JurisdictionFlagClient::new(&env, &jf_id).initialize(&admin);
 
         let permitted = vec![
             &env,

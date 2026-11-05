@@ -5,11 +5,24 @@
 
 #![no_std]
 
-use circuit_breaker::CircuitBreakerClient;
-use denylist_gate::DenylistGateClient;
 use soroban_sdk::{
-    contract, contracterror, contractimpl, contracttype, panic_with_error, Address, Env,
+    contract, contractclient, contracterror, contractimpl, contracttype, panic_with_error, Address,
+    Env,
 };
+
+// ── Cross-contract client interfaces ───────────────────────────────────────
+// Only the methods this contract calls are declared here as client traits, so
+// circuit-breaker and denylist-gate are not linked into this contract's WASM.
+// They are deployed separately and invoked by address at runtime.
+#[contractclient(name = "CircuitBreakerClient")]
+pub trait CircuitBreakerTrait {
+    fn check(env: Env);
+}
+
+#[contractclient(name = "DenylistGateClient")]
+pub trait DenylistGateTrait {
+    fn check(env: Env, address: Address);
+}
 
 #[contracttype]
 #[derive(Clone)]
@@ -124,10 +137,10 @@ mod tests {
         let admin = Address::generate(&env);
 
         let dl_id = env.register_contract(None, DenylistGate);
-        DenylistGateClient::new(&env, &dl_id).initialize(&admin);
+        denylist_gate::DenylistGateClient::new(&env, &dl_id).initialize(&admin);
 
         let cb_id = env.register_contract(None, CircuitBreaker);
-        CircuitBreakerClient::new(&env, &cb_id).initialize(&admin);
+        circuit_breaker::CircuitBreakerClient::new(&env, &cb_id).initialize(&admin);
 
         let contract_id = env.register_contract(None, DenylistGateConsumer);
         let client = DenylistGateConsumerClient::new(&env, &contract_id);
