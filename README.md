@@ -135,8 +135,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the fork → branch → PR flow, and 
 
 Issues are labeled by complexity (`complexity: trivial`, `complexity: medium`, `complexity: high`). Issues tagged `good first issue` are a good place to start.
 
-This repo is part of the **Drips Wave Stellar Program**.
-
 ## Security
 
 See [SECURITY.md](SECURITY.md) for how to report a vulnerability.
